@@ -1,0 +1,13 @@
+name = "ElastixRegistration"
+uuid = "04632643-2f77-4416-ad2f-bdd06ea1544e"
+authors = ["Donghoon Lee <mdhe1248@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
