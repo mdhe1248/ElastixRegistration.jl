@@ -55,7 +55,7 @@ function run_transformix(imgfn, tp, outdir)
 end
 
 """ Transform points. Be aware that the point in the "fixed" image space will be transformed into the "moving" image space. """
-function run_transformix(imgfn, tp, poinfn, outdir)
+function run_transformix(imgfn, tp, pointfn, outdir)
   isdir(outdir) ? nothing : mkdir(outdir)
   run(`transformix -in $imgfn -tp $tp -def $pointfn -out $outdir`)
 end
