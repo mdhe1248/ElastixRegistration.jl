@@ -74,6 +74,13 @@ function load_points(fn)
   return(pts)
 end
 
+""" Given that a pre-wapred image is an offset array, compensate offsets from the coordinates of points, `pts`. This is for 2d points."""
+function offset_coords(moving3dw::AbstractArray, pts)
+  moving_ax = Base.axes(moving3dw)
+  pts = map(x -> x.+[moving_ax[1].offset, moving_ax[2].offset], pts) #offset array compensation
+  pts
+end
+
 """ 
 Normalize image by mean 
 If all zero, return a zero array.
