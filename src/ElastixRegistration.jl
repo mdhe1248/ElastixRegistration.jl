@@ -1,4 +1,6 @@
 module ElastixRegistration
+using DelimitedFiles
+using Statistics
 
 export elastix_inverse_tform, run_elastix, run_transformix, load_points, normalizeimg, add_z, permuteimg
 
