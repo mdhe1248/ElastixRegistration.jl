@@ -2,38 +2,12 @@
 
 [![Build Status](https://travis-ci.com/mdhe1248/ElastixRegistration.jl.svg?branch=main)](https://travis-ci.com/mdhe1248/ElastixRegistration.jl)
 
-Example:
+Example script:
 ```jl
 using PyPlot
 using RegisterQD, Images, ImageView
 using Rotations, CoordinateTransformations, DelimitedFiles
-#using AxisArrays, StaticArrays
-#using Statistics
 using BrainAnnotationMapping, ElastixRegistration
-
-function brainmapping(annotationImg, annotation, pts_filtered)
-  subbrain_ids = Int.(unique(annotationImg))
-  subbrain_labels = map(x -> retrieve(annotation[1], "name", "id", x), subbrain_ids)
-  subbrain_fos_lbl = label_points(annotationImg, pts_filtered) # label each point
-  fosncells = map(x -> count_cells(subbrain_fos_lbl, x), subbrain_ids) # Count cells in each subbrain
-  parent_ids = map(x -> retrieve(annotation[1],"parent_structure_id", "id", x), subbrain_ids)
-  return(subbrain_ids, subbrain_labels, subbrain_fos_lbl, fosncells, parent_ids)
-end
-
-function load_brainmap_json(jsonfn)
-  d = []
-  open(jsonfn) do io
-    push!(d, JSON.parse(io))
-  end
-  return(d)
-end
-
-function saveData(results_dir, subbrain_ids, subbrain_labels, fosncells)
-  dtf = DataFrame(subbrain_ids = subbrain_ids, subbrain_labels = subbrain_labels, fos_ncells = fosncells)
-  dtf.subbrain_labels = replace(dtf.subbrain_labels, nothing => missing)
-  isdir(results_dir) ? nothing : mkdir(results_dir)
-  CSV.write(results_dir*"cfos_counts.csv", dtf, delim = ';')
-end
 
 ##Initialize variables
 imgfn = "/home/donghoon/work/slide_scanner/Image_18.vsi - 10x_DAPI, FITC, mCherry_12.tif"
@@ -121,10 +95,4 @@ annotationImg = load(annotation_fn)
 annotationImg = permuteimg(annotationImg, orientation)
 pts_filtered = filter_points(annotationImg, pts_tformed) #Remove point outside the image
 
-###### 3 The last: Load annotation file and count the number of c-fos cells
-## Initialize variable
-jsonfn = "/home/donghoon/usr/ClearMap2/ClearMap/Resources/Atlas/ABA_annotation.json"
-results_dir = "counts/"
-annotation_map = load_brainmap_json(jsonfn) #Load json file (brain annotation map)
-subbrain_ids, subbrain_labels, subbrain_fos_lbl, fosncells, parent_ids = brainmapping(annotationImg, annotation_map, pts_filtered) #point-to-brain mapping
 ```
